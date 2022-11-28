@@ -6,7 +6,7 @@ loc=${3:-$(pwd)};
 path="$loc/$repo";
 
 echo "creating repo $path for user $user";
-$(curl -u $user https://api.github.com/user/repos -d '{"name":'\"$repo\"',"private":true}')
+ret=$(curl -f -u $user https://api.github.com/user/repos -d '{"name":'\"$repo\"',"private":true}')
 echo "$ret"
 echo "$?"
 if [ "$?" -ne 0 ]; then
