@@ -1,5 +1,9 @@
 #!/bin/bash
 
+if [[ $# -lt 2 ]]; then
+	echo "Usage: ./mkrepo <username> <repo name> <optional path>"
+	exit 1
+fi
 user=$1;
 repo=$2;
 loc=${3:-$(pwd)};
