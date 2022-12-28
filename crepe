@@ -1,0 +1,27 @@
+#!/bin/bash
+
+if ! [[ -f .gitignore ]]; then
+	grep "$@"
+fi
+
+exclude=""
+exclude_dir=""
+
+while read -r line; do
+ if ! [[ "$line" =~ "*" ]]; then
+  if [[ -d "$line" ]]; then
+   exclude_dir+=",$line";
+  elif [[ -f "$line" ]]; then
+   exclude+=" $line";
+  fi
+ else
+  if compgen -G "$line" > /dev/null; then
+   exclude+=",$line";
+  fi
+ fi
+done < ./.gitignore
+
+exclude="${exclude:1}"
+exclude_dir="${exclude:1}"
+grep --exclude={"$exclude"} --exclude-dir={"$exclude_dir"} "$@"
+
